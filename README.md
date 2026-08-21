@@ -317,13 +317,13 @@ com.example.myapplication
 
 ```text
 Screenshots/
-├── home-light.png
-├── home-dark.png
-├── internet.png
-├── products.png
-├── sale.png
-├── reports.png
-└── low-stock.png
+├── report_net_day.jpg
+├── report_dark.jpg
+├── stationery_dark.jpg
+├── stationery_light.jpg
+├── report_month_light.jpg
+├── list_product.jpg
+└── print.jpg
 ```
 
 ### نمای روشن و تاریک
