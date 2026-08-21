@@ -2,7 +2,7 @@
 
 اپلیکیشن اندرویدی **همانگار** با هدف مدیریت ساده و کاربردی فروش، موجودی کالا، خدمات و گزارش‌های مالی کسب‌وکارهای کوچک توسعه داده شده است.
 
-این پروژه با استفاده از Kotlin و Jetpack Compose ساخته شده و معماری آن بر پایه MVVM و جداسازی لایه‌های Data، Domain و Presentation طراحی شده است.
+همانگار با استفاده از **Kotlin** و **Jetpack Compose** ساخته شده و معماری پروژه بر پایه **MVVM** و جداسازی لایه‌های **Data، Domain و Presentation** طراحی شده است.
 
 ---
 
@@ -15,7 +15,11 @@
 - ثبت مبلغ و توضیحات
 - نمایش خدمات ثبت‌شده
 - محاسبه درآمد روزانه
+- محاسبه درآمد ماهانه
 - فیلتر اطلاعات بر اساس تاریخ
+- انتخاب تاریخ برای مشاهده اطلاعات
+- ویرایش خدمات ثبت‌شده
+- حذف خدمات ثبت‌شده
 - ذخیره اطلاعات در دیتابیس محلی
 
 ### 📦 مدیریت کالا و لوازم‌التحریر
@@ -72,10 +76,11 @@
 - کد کالا
 - موجودی فعلی
 - قیمت فروش
+- موجودی فعلی کالا
 
 ---
 
-## 🌙 حالت روز و شب
+## 🌙 حالت روشن و تاریک
 
 همانگار از هر دو حالت **Light Mode** و **Dark Mode** پشتیبانی می‌کند.
 
@@ -140,6 +145,8 @@
     description
     createdAt
 
+---
+
 ## 🛒 مدل فروش
 
 اطلاعات فروش شامل:
@@ -161,7 +168,7 @@
 
 ## 💰 محاسبه سود
 
-سود هر فروش:
+سود هر فروش بر اساس فرمول زیر محاسبه می‌شود:
 
     سود = (قیمت فروش - قیمت خرید) × تعداد
 
@@ -207,7 +214,7 @@
 
     yyyy/MM/dd
 
-برای گزارش ماهانه از:
+برای گزارش ماهانه از فرمت:
 
     yyyy/MM
 
@@ -233,7 +240,7 @@
 
 ## 💉 Dependency Injection
 
-برای مدیریت وابستگی‌ها از Dagger Hilt استفاده شده است.
+برای مدیریت وابستگی‌ها از **Dagger Hilt** استفاده شده است.
 
 ساختار وابستگی:
 
@@ -277,6 +284,11 @@
     همانگار
     │
     ├── 🌐 خدمات اینترنتی
+    │   ├── ثبت خدمات
+    │   ├── ویرایش خدمات
+    │   ├── حذف خدمات
+    │   ├── گزارش روزانه
+    │   └── گزارش ماهانه
     │
     └── 📦 لوازم‌التحریر
         ├── 📦 مدیریت کالاها
@@ -286,47 +298,61 @@
 
 ---
 
-## 📸 Screenshots
+# 📸 Screenshots
 
 تصاویر رابط کاربری پروژه در پوشه `Screenshots` قرار دارند.
 
-ساختار پوشه تصاویر:
+### 🌐 خدمات اینترنتی و گزارش‌ها
 
-    Screenshots/
-    ├── report_net_day.jpg
-    ├── report_dark.jpg
-    ├── stationery_dark.jpg
-    ├── stationery_light.jpg
-    ├── report_month_light.jpg
-    ├── list_product.jpg
-    └── print.jpg
+![گزارش روزانه خدمات اینترنتی](./Screenshots/report_net_day.jpg)
 
-### 🌐 گزارش خدمات اینترنتی
+![گزارش ماهانه خدمات اینترنتی](./Screenshots/report_net_month.jpg)
 
-<p align="center">
-  <img src="./Screenshots/report_net_day.jpg" width="250" alt="Internet Services Daily Report">
-  <img src="./Screenshots/report_month_light.jpg" width="250" alt="Monthly Report">
-</p>
+### 📅 انتخاب تاریخ
+
+![انتخاب تاریخ](./Screenshots/select_date.jpg)
+
+### ✏️ ویرایش و مدیریت خدمات
+
+![ویرایش خدمت](./Screenshots/edit_net_item.jpg)
+
+![حذف خدمت](./Screenshots/delete_net_item.jpg)
 
 ### 🌙 حالت تاریک
 
-<p align="center">
-  <img src="./Screenshots/report_dark.jpg" width="250" alt="Dark Mode Report">
-  <img src="./Screenshots/stationery_dark.jpg" width="250" alt="Dark Mode Stationery">
-</p>
+![گزارش در حالت تاریک](./Screenshots/report_dark.jpg)
 
-### 📦 مدیریت کالا و لوازم‌التحریر
+![لوازم‌التحریر در حالت تاریک](./Screenshots/stationery_dark.jpg)
 
-<p align="center">
-  <img src="./Screenshots/stationery_light.jpg" width="250" alt="Stationery">
-  <img src="./Screenshots/list_product.jpg" width="250" alt="Product List">
-</p>
+![موجودی کم در حالت تاریک](./Screenshots/low_stock_dark.jpg)
+
+### ☀️ حالت روشن
+
+![لوازم‌التحریر در حالت روشن](./Screenshots/stationery_light.jpg)
+
+![موجودی کم در حالت روشن](./Screenshots/low_stock_light.jpg)
+
+### 📦 مدیریت محصولات
+
+![لیست محصولات](./Screenshots/list_product.jpg)
+
+### 🛒 ثبت فروش
+
+![فرم ثبت فروش](./Screenshots/sale_form_light.jpg)
 
 ### 🖨️ بخش چاپ
 
-<p align="center">
-  <img src="./Screenshots/print.jpg" width="250" alt="Print Section">
-</p>
+![صفحه چاپ](./Screenshots/home_print_light.jpg)
+
+### 📱 سایر نماهای برنامه
+
+![Screenshot 1](./Screenshots/1.jpg)
+
+![Screenshot 2](./Screenshots/2.jpg)
+
+![Screenshot 3](./Screenshots/3.jpg)
+
+![Screenshot 4](./Screenshots/4.jpg)
 
 ---
 
