@@ -87,19 +87,17 @@
 
 ساختار کلی پروژه به صورت زیر است:
 
-```text
-Presentation
-      ↓
-  ViewModel
-      ↓
-   UseCase
-      ↓
- Repository
-      ↓
-     DAO
-      ↓
-Room Database
-```
+    Presentation
+          ↓
+      ViewModel
+          ↓
+       UseCase
+          ↓
+     Repository
+          ↓
+         DAO
+          ↓
+    Room Database
 
 ### Presentation
 
@@ -134,30 +132,26 @@ Room Database
 
 اطلاعات محصول شامل موارد زیر است:
 
-```text
-id
-productName
-purchasePrice
-salesPrice
-stock
-description
-createdAt
-```
+    id
+    productName
+    purchasePrice
+    salesPrice
+    stock
+    description
+    createdAt
 
 ## 🛒 مدل فروش
 
 اطلاعات فروش شامل:
 
-```text
-id
-productId
-purchasePriceAsSale
-salePriceAsSale
-quantity
-date
-description
-createdAt
-```
+    id
+    productId
+    purchasePriceAsSale
+    salePriceAsSale
+    quantity
+    date
+    description
+    createdAt
 
 یکی از نکات مهم طراحی این پروژه این است که قیمت خرید و قیمت فروش در زمان ثبت فروش داخل رکورد فروش ذخیره می‌شوند.
 
@@ -169,20 +163,16 @@ createdAt
 
 سود هر فروش بر اساس فرمول زیر محاسبه می‌شود:
 
-```text
-سود = (قیمت فروش - قیمت خرید) × تعداد
-```
+    سود = (قیمت فروش - قیمت خرید) × تعداد
 
 برای مثال:
 
-```text
-قیمت خرید = 50,000
-قیمت فروش = 70,000
-تعداد = 3
+    قیمت خرید = 50,000
+    قیمت فروش = 70,000
+    تعداد = 3
 
-سود = (70,000 - 50,000) × 3
-سود = 60,000
-```
+    سود = (70,000 - 50,000) × 3
+    سود = 60,000
 
 ---
 
@@ -190,15 +180,11 @@ createdAt
 
 هنگام ثبت فروش:
 
-```text
-موجودی جدید = موجودی فعلی - تعداد فروش
-```
+    موجودی جدید = موجودی فعلی - تعداد فروش
 
 هنگام حذف فروش:
 
-```text
-موجودی جدید = موجودی فعلی + تعداد فروش
-```
+    موجودی جدید = موجودی فعلی + تعداد فروش
 
 هنگام ویرایش فروش نیز موجودی بر اساس تعداد قبلی و تعداد جدید اصلاح می‌شود.
 
@@ -208,10 +194,8 @@ createdAt
 
 جستجوی محصولات بر اساس نام در DAO پیاده‌سازی شده است:
 
-```sql
-SELECT * FROM table_product
-WHERE product_name LIKE '%' || :productName || '%'
-```
+    SELECT * FROM table_product
+    WHERE product_name LIKE '%' || :productName || '%'
 
 ---
 
@@ -221,15 +205,11 @@ WHERE product_name LIKE '%' || :productName || '%'
 
 فرمت تاریخ:
 
-```text
-yyyy/MM/dd
-```
+    yyyy/MM/dd
 
 برای گزارش ماهانه از بخش:
 
-```text
-yyyy/MM
-```
+    yyyy/MM
 
 استفاده می‌شود.
 
@@ -257,68 +237,69 @@ yyyy/MM
 
 ساختار وابستگی:
 
-```text
-ViewModel
-     ↓
-UseCase
-     ↓
-Repository Interface
-     ↓
-RepositoryImpl
-     ↓
-DAO
-```
+    ViewModel
+         ↓
+      UseCase
+         ↓
+    Repository Interface
+         ↓
+      RepositoryImpl
+         ↓
+         DAO
 
 ---
 
 ## 🗂️ ساختار کلی پروژه
 
-```text
-com.example.myapplication
-│
-├── data
-│   ├── local
-│   │   ├── dao
-│   │   └── entity
-│   ├── mapper
-│   └── repository
-│
-├── domain
-│   ├── model
-│   ├── repository
-│   └── useCase
-│
-└── presentation
-    ├── screen
-    ├── viewModel
-    └── ui
-```
+    com.example.myapplication
+    │
+    ├── data
+    │   ├── local
+    │   │   ├── dao
+    │   │   └── entity
+    │   ├── mapper
+    │   └── repository
+    │
+    ├── domain
+    │   ├── model
+    │   ├── repository
+    │   └── useCase
+    │
+    └── presentation
+        ├── screen
+        ├── viewModel
+        └── ui
 
 ---
 
 ## 🧭 بخش‌های اصلی برنامه
 
-```text
-لوازم‌التحریر
-│
-├── 📦 مدیریت کالاها
-├── 🛒 ثبت فروش
-├── 📊 گزارش‌ها
-└── ⚠️ موجودی کم
-```
+    همانگار
+    │
+    ├── 🌐 خدمات اینترنتی
+    │
+    └── 📦 لوازم‌التحریر
+        ├── 📦 مدیریت کالاها
+        ├── 🛒 ثبت فروش
+        ├── 📊 گزارش‌ها
+        └── ⚠️ موجودی کم
 
 ---
 
 ## 📸 Screenshots
 
-تصاویر رابط کاربری پروژه در پوشه `Screenshots` قرار می‌گیرند.
-
-ساختار پیشنهادی:
-
-```text
-## 📸 Screenshots
-
 تصاویر رابط کاربری پروژه در پوشه `Screenshots` قرار دارند.
+
+ساختار پوشه تصاویر:
+
+    Screenshots/
+    ├── report_net_day.jpg
+    ├── report_dark.jpg
+    ├── stationery_dark.jpg
+    ├── stationery_light.jpg
+    ├── report_month_light.jpg
+    ├── list_product.jpg
+    └── print.jpg
 
 ### 🌐 گزارش خدمات اینترنتی
 
@@ -346,6 +327,7 @@ com.example.myapplication
 <p align="center">
   <img src="Screenshots/print.jpg" width="250" alt="Print Section">
 </p>
+
 ---
 
 ## 🎯 هدف پروژه
@@ -415,14 +397,12 @@ com.example.myapplication
 
 Android Developer
 
-```text
-Kotlin
-Jetpack Compose
-Room
-Hilt
-MVVM
-Clean Architecture
-```
+    Kotlin
+    Jetpack Compose
+    Room
+    Hilt
+    MVVM
+    Clean Architecture
 
 ---
 
