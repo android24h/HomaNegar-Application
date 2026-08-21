@@ -85,7 +85,7 @@
 
 ## 🧱 معماری
 
-ساختار کلی پروژه به صورت زیر است:
+ساختار کلی پروژه:
 
     Presentation
           ↓
@@ -130,7 +130,7 @@
 
 ## 🗃️ مدل محصول
 
-اطلاعات محصول شامل موارد زیر است:
+اطلاعات محصول شامل:
 
     id
     productName
@@ -161,11 +161,11 @@
 
 ## 💰 محاسبه سود
 
-سود هر فروش بر اساس فرمول زیر محاسبه می‌شود:
+سود هر فروش:
 
     سود = (قیمت فروش - قیمت خرید) × تعداد
 
-برای مثال:
+مثال:
 
     قیمت خرید = 50,000
     قیمت فروش = 70,000
@@ -192,7 +192,7 @@
 
 ## 🔎 جستجوی محصول
 
-جستجوی محصولات بر اساس نام در DAO پیاده‌سازی شده است:
+جستجوی محصولات بر اساس نام در DAO پیاده‌سازی شده است.
 
     SELECT * FROM table_product
     WHERE product_name LIKE '%' || :productName || '%'
@@ -207,7 +207,7 @@
 
     yyyy/MM/dd
 
-برای گزارش ماهانه از بخش:
+برای گزارش ماهانه از:
 
     yyyy/MM
 
@@ -304,28 +304,28 @@
 ### 🌐 گزارش خدمات اینترنتی
 
 <p align="center">
-  <img src="Screenshots/report_net_day.jpg" width="250" alt="Internet Services Daily Report">
-  <img src="Screenshots/report_month_light.jpg" width="250" alt="Monthly Report">
+  <img src="./Screenshots/report_net_day.jpg" width="250" alt="Internet Services Daily Report">
+  <img src="./Screenshots/report_month_light.jpg" width="250" alt="Monthly Report">
 </p>
 
 ### 🌙 حالت تاریک
 
 <p align="center">
-  <img src="Screenshots/report_dark.jpg" width="250" alt="Dark Mode Report">
-  <img src="Screenshots/stationery_dark.jpg" width="250" alt="Dark Mode Stationery">
+  <img src="./Screenshots/report_dark.jpg" width="250" alt="Dark Mode Report">
+  <img src="./Screenshots/stationery_dark.jpg" width="250" alt="Dark Mode Stationery">
 </p>
 
 ### 📦 مدیریت کالا و لوازم‌التحریر
 
 <p align="center">
-  <img src="Screenshots/stationery_light.jpg" width="250" alt="Stationery">
-  <img src="Screenshots/list_product.jpg" width="250" alt="Product List">
+  <img src="./Screenshots/stationery_light.jpg" width="250" alt="Stationery">
+  <img src="./Screenshots/list_product.jpg" width="250" alt="Product List">
 </p>
 
 ### 🖨️ بخش چاپ
 
 <p align="center">
-  <img src="Screenshots/print.jpg" width="250" alt="Print Section">
+  <img src="./Screenshots/print.jpg" width="250" alt="Print Section">
 </p>
 
 ---
