@@ -316,39 +316,36 @@ com.example.myapplication
 ساختار پیشنهادی:
 
 ```text
-Screenshots/
-├── report_net_day.jpg
-├── report_dark.jpg
-├── stationery_dark.jpg
-├── stationery_light.jpg
-├── report_month_light.jpg
-├── list_product.jpg
-└── print.jpg
-```
+## 📸 Screenshots
 
-### نمای روشن و تاریک
+تصاویر رابط کاربری پروژه در پوشه `Screenshots` قرار دارند.
+
+### 🌐 گزارش خدمات اینترنتی
 
 <p align="center">
-  <img src="Screenshots/home-light.png" width="250" alt="Light Mode">
-  <img src="Screenshots/home-dark.png" width="250" alt="Dark Mode">
+  <img src="Screenshots/report_net_day.jpg" width="250" alt="Internet Services Daily Report">
+  <img src="Screenshots/report_month_light.jpg" width="250" alt="Monthly Report">
 </p>
 
-### مدیریت محصولات و ثبت فروش
+### 🌙 حالت تاریک
 
 <p align="center">
-  <img src="Screenshots/products.png" width="250" alt="Products">
-  <img src="Screenshots/sale.png" width="250" alt="Sale">
+  <img src="Screenshots/report_dark.jpg" width="250" alt="Dark Mode Report">
+  <img src="Screenshots/stationery_dark.jpg" width="250" alt="Dark Mode Stationery">
 </p>
 
-### گزارش‌ها و موجودی کم
+### 📦 مدیریت کالا و لوازم‌التحریر
 
 <p align="center">
-  <img src="Screenshots/reports.png" width="250" alt="Reports">
-  <img src="Screenshots/low-stock.png" width="250" alt="Low Stock">
+  <img src="Screenshots/stationery_light.jpg" width="250" alt="Stationery">
+  <img src="Screenshots/list_product.jpg" width="250" alt="Product List">
 </p>
 
-> اگر هنوز تصاویر را در پروژه قرار نداده‌ای، کافی است تصاویر را داخل پوشه `Screenshots` قرار دهی و نام فایل‌ها را مطابق نام‌های بالا بگذاری.
+### 🖨️ بخش چاپ
 
+<p align="center">
+  <img src="Screenshots/print.jpg" width="250" alt="Print Section">
+</p>
 ---
 
 ## 🎯 هدف پروژه
