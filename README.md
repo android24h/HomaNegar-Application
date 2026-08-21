@@ -304,55 +304,65 @@
 
 ### 🌐 خدمات اینترنتی و گزارش‌ها
 
-![گزارش روزانه خدمات اینترنتی](./Screenshots/report_net_day.jpg)
+<p align="center">
+  <img src="./Screenshots/report_net_day.jpg" width="250" alt="گزارش روزانه خدمات اینترنتی">
+  <img src="./Screenshots/report_net_month.jpg" width="250" alt="گزارش ماهانه خدمات اینترنتی">
+</p>
 
-![گزارش ماهانه خدمات اینترنتی](./Screenshots/report_net_month.jpg)
+### 📅 انتخاب و مدیریت تاریخ
 
-### 📅 انتخاب تاریخ
+<p align="center">
+  <img src="./Screenshots/select_date.jpg" width="250" alt="انتخاب تاریخ">
+</p>
 
-![انتخاب تاریخ](./Screenshots/select_date.jpg)
+### ✏️ مدیریت خدمات
 
-### ✏️ ویرایش و مدیریت خدمات
-
-![ویرایش خدمت](./Screenshots/edit_net_item.jpg)
-
-![حذف خدمت](./Screenshots/delete_net_item.jpg)
+<p align="center">
+  <img src="./Screenshots/edit_net_item.jpg" width="250" alt="ویرایش خدمت">
+  <img src="./Screenshots/delete_net_item.jpg" width="250" alt="حذف خدمت">
+</p>
 
 ### 🌙 حالت تاریک
 
-![گزارش در حالت تاریک](./Screenshots/report_dark.jpg)
-
-![لوازم‌التحریر در حالت تاریک](./Screenshots/stationery_dark.jpg)
-
-![موجودی کم در حالت تاریک](./Screenshots/low_stock_dark.jpg)
+<p align="center">
+  <img src="./Screenshots/report_dark.jpg" width="250" alt="گزارش در حالت تاریک">
+  <img src="./Screenshots/stationery_dark.jpg" width="250" alt="لوازم التحریر در حالت تاریک">
+  <img src="./Screenshots/low_stock_dark.jpg" width="250" alt="موجودی کم در حالت تاریک">
+</p>
 
 ### ☀️ حالت روشن
 
-![لوازم‌التحریر در حالت روشن](./Screenshots/stationery_light.jpg)
-
-![موجودی کم در حالت روشن](./Screenshots/low_stock_light.jpg)
+<p align="center">
+  <img src="./Screenshots/stationery_light.jpg" width="250" alt="لوازم التحریر در حالت روشن">
+  <img src="./Screenshots/low_stock_light.jpg" width="250" alt="موجودی کم در حالت روشن">
+</p>
 
 ### 📦 مدیریت محصولات
 
-![لیست محصولات](./Screenshots/list_product.jpg)
+<p align="center">
+  <img src="./Screenshots/list_product.jpg" width="250" alt="لیست محصولات">
+</p>
 
 ### 🛒 ثبت فروش
 
-![فرم ثبت فروش](./Screenshots/sale_form_light.jpg)
+<p align="center">
+  <img src="./Screenshots/sale_form_light.jpg" width="250" alt="فرم ثبت فروش">
+</p>
 
 ### 🖨️ بخش چاپ
 
-![صفحه چاپ](./Screenshots/home_print_light.jpg)
+<p align="center">
+  <img src="./Screenshots/home_print_light.jpg" width="250" alt="صفحه چاپ">
+</p>
 
 ### 📱 سایر نماهای برنامه
 
-![Screenshot 1](./Screenshots/1.jpg)
-
-![Screenshot 2](./Screenshots/2.jpg)
-
-![Screenshot 3](./Screenshots/3.jpg)
-
-![Screenshot 4](./Screenshots/4.jpg)
+<p align="center">
+  <img src="./Screenshots/1.jpg" width="250" alt="Screenshot 1">
+  <img src="./Screenshots/2.jpg" width="250" alt="Screenshot 2">
+  <img src="./Screenshots/3.jpg" width="250" alt="Screenshot 3">
+  <img src="./Screenshots/4.jpg" width="250" alt="Screenshot 4">
+</p>
 
 ---
 
