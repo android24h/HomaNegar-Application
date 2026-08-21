@@ -1,0 +1,164 @@
+package com.example.myapplication.presentation.viewModel.stationery
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myapplication.domain.model.stationery.SaleData
+import com.example.myapplication.domain.useCase.stationery.DeleteSaleUseCase
+import com.example.myapplication.domain.useCase.stationery.GetAllSaleUseCase
+import com.example.myapplication.domain.useCase.stationery.GetSaleByIdUseCase
+import com.example.myapplication.domain.useCase.stationery.SaleByDateUseCase
+import com.example.myapplication.domain.useCase.stationery.SaleByMonthUseCase
+import com.example.myapplication.domain.useCase.stationery.UpsertSaleUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SaleProductViewModel @Inject constructor(
+    private val upsertSaleUseCase: UpsertSaleUseCase,
+    private val deleteSaleUseCase: DeleteSaleUseCase,
+    private val getAllSaleUseCase: GetAllSaleUseCase,
+    private val getSaleByIdUseCase: GetSaleByIdUseCase,
+    private val saleByDateUseCase: SaleByDateUseCase,
+    private val saleByMonthUseCase: SaleByMonthUseCase
+): ViewModel() {
+    private val _isLoading= MutableStateFlow(false)
+    val isLoading=_isLoading.asStateFlow()
+
+    private val _errorMessage=MutableStateFlow<String?>(null)
+    val errorMessage=_errorMessage.asStateFlow()
+
+    private val _showAllSaleProduct=MutableStateFlow<List<SaleData>>(emptyList())
+    val showAllSaleProduct=_showAllSaleProduct.asStateFlow()
+
+    private val _selectedSaleProduct=MutableStateFlow<SaleData?>(null)
+    val selectedSaleProduct=_selectedSaleProduct.asStateFlow()
+
+    init {
+        showAllSaleViewModel()
+    }
+
+    fun updateSaleViewModel(
+        oldSale: SaleData,
+        newQuantity: Int,
+        newDescription: String?
+    ) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+
+                val updatedSale = oldSale.copy(
+                    quantity = newQuantity,
+                    description = newDescription
+                )
+
+                upsertSaleUseCase(updatedSale)
+
+            } catch (e: Exception) {
+                _errorMessage.value =
+                    e.message ?: "خطا در ویرایش فروش"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+
+
+
+fun clearSelectedSaleProduct(){
+    _selectedSaleProduct.value=null
+}
+
+
+
+    fun upsertSaleViewModel(saleData: SaleData){
+        viewModelScope.launch {
+            try {
+                _isLoading.value=true
+                upsertSaleUseCase(saleData)
+
+            }catch (e: Exception){
+                _errorMessage.value=e.message?:"خطا در ثبت اطلاعات"
+
+            }finally {
+                _isLoading.value=false
+
+            }
+        }
+    }
+
+    fun deleteSaleViewModel(saleData: SaleData){
+        viewModelScope.launch {
+            try {
+                _isLoading.value=true
+                deleteSaleUseCase(saleData)
+            }catch (e: Exception){
+                _errorMessage.value=e.message?:"خطا در پاک کردن اطلاعات"
+            }finally {
+                _isLoading.value=false
+            }
+        }
+    }
+
+    fun showAllSaleViewModel(){
+        viewModelScope.launch {
+            try {
+                getAllSaleUseCase().collect{item->
+                    _showAllSaleProduct.value=item
+
+                }
+
+            }catch (e: Exception){
+                _errorMessage.value=e.message?:"خطا در نمایش کلی اطلاعات"
+            }
+        }
+    }
+
+    fun getSaleByIdViewModel(id: Int) {
+        viewModelScope.launch {
+
+            try {
+                _isLoading.value = true
+             val data=getSaleByIdUseCase(id)
+                _selectedSaleProduct.value=data
+            } catch (e: Exception) {
+                _errorMessage.value = e.message?:"خطا در فراخوانی شناسه مدنظر"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+
+    }
+
+    fun saleByDateViewModel(date: String){
+        viewModelScope.launch {
+            try {
+                saleByDateUseCase(date).collect {data->
+                    _showAllSaleProduct.value=data
+                }
+
+            }catch (e: Exception){
+                _errorMessage.value=e.message?:"خطا در فراخوانی اطلاعات بر اساس تاریخ روز"
+            }
+        }
+    }
+
+    fun saleByMonthViewModel(month: String){
+        viewModelScope.launch {
+            try {
+                saleByMonthUseCase(month).collect {item->
+                    _showAllSaleProduct.value=item
+
+                }
+
+            }catch (e: Exception){
+                _errorMessage.value=e.message?:"خطا در دریافت اطلاعات ماه"
+            }
+        }
+    }
+
+
+}

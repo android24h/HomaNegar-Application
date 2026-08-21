@@ -1,0 +1,1189 @@
+package com.example.myapplication.presentation.screen.stationery.sale
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.myapplication.domain.model.stationery.ProductData
+import com.example.myapplication.domain.model.stationery.SaleData
+import com.example.myapplication.presentation.viewModel.stationery.ProductViewModel
+import com.example.myapplication.presentation.viewModel.stationery.SaleProductViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import com.example.myapplication.presentation.util.toPersianNumber
+
+
+@Composable
+fun SaleScreen(
+    saleViewModel: SaleProductViewModel = hiltViewModel(),
+    productViewModel: ProductViewModel = hiltViewModel()
+) {
+
+    val showAllListSale by
+    saleViewModel.showAllSaleProduct.collectAsState()
+
+    val productList by
+    productViewModel.productList.collectAsState()
+
+    CompositionLocalProvider(
+        LocalLayoutDirection provides LayoutDirection.Rtl
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(
+                    rememberScrollState()
+                )
+        ) {
+
+            SaleHeader()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+
+                verticalArrangement =
+                    Arrangement.spacedBy(12.dp)
+            ) {
+
+                Text(
+                    text = "فرم ثبت فروش",
+                    style =
+                        MaterialTheme.typography.headlineSmall
+                )
+
+                SaleForm(
+                    productList = productList,
+                    saleViewModel = saleViewModel,
+                    productViewModel = productViewModel
+                )
+
+                SaleList(
+                    saleList = showAllListSale,
+                    productList = productList,
+                    saleViewModel = saleViewModel,
+                    productViewModel = productViewModel
+                )
+            }
+        }
+    }
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+@Composable
+fun SaleHeader() {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = 16.dp,
+                vertical = 16.dp
+            )
+            .height(60.dp)
+    ) {
+
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+            Text(
+                text = "ثبت فروش",
+
+                modifier =
+                    Modifier.align(
+                        Alignment.Center
+                    ),
+
+                fontSize = 18.sp,
+
+                fontWeight =
+                    FontWeight.Bold
+            )
+
+            Icon(
+                imageVector =
+                    Icons.Default.ShoppingCart,
+
+                contentDescription =
+                    null,
+
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 16.dp)
+            )
+        }
+    }
+}
+
+
+/* =====================================================
+   SALE FORM
+===================================================== */
+
+@Composable
+fun SaleForm(
+    productList: List<ProductData>,
+    saleViewModel: SaleProductViewModel,
+    productViewModel: ProductViewModel
+) {
+
+    var selectedProductId by remember {
+        mutableStateOf<Int?>(null)
+    }
+
+    var quantity by remember {
+        mutableStateOf("")
+    }
+
+    var description by remember {
+        mutableStateOf("")
+    }
+
+    var errorMessaging by remember { mutableStateOf<String?>(null) }
+
+    val selectedProduct =
+        productList.find {
+            it.id == selectedProductId
+        }
+
+    Column(
+        modifier =
+            Modifier.fillMaxWidth(),
+
+        verticalArrangement =
+            Arrangement.spacedBy(10.dp)
+    ) {
+
+        ProductDropDown(
+            productList = productList,
+
+            selectedProductId =
+                selectedProductId,
+
+            onProductSelected = { productId ->
+                selectedProductId =
+                    productId
+            }
+        )
+
+
+        if (selectedProduct != null) {
+
+            Card(
+                modifier =
+                    Modifier.fillMaxWidth()
+            ) {
+
+                Column(
+                    modifier =
+                        Modifier.padding(12.dp),
+
+                    verticalArrangement =
+                        Arrangement.spacedBy(6.dp)
+                ) {
+
+                    Text(
+                        text =
+                            selectedProduct.productName,
+
+                        style =
+                            MaterialTheme
+                                .typography
+                                .titleMedium,
+
+                        fontWeight =
+                            FontWeight.Bold
+                    )
+
+                    Row(
+                        modifier =
+                            Modifier.fillMaxWidth(),
+
+                        horizontalArrangement =
+                            Arrangement.SpaceBetween
+                    ) {
+
+                        Text(
+                            text =
+                                "قیمت خرید: " +
+                                        selectedProduct.purchasePrice
+                        )
+
+                        Text(
+                            text =
+                                "قیمت فروش: " +
+                                        selectedProduct.salesPrice
+                        )
+                    }
+
+                    Text(
+                        text =
+                            "موجودی فعلی: " +
+                                    selectedProduct.stock
+                    )
+                }
+            }
+        }
+
+        OutlinedTextField(
+            value = quantity,
+            onValueChange = {
+                quantity = it
+                errorMessaging = null
+            },
+            modifier = Modifier.fillMaxWidth(),
+            label = {
+                Text("تعداد فروش")
+            },
+            singleLine = true,
+            isError = errorMessaging != null
+        )
+
+        errorMessaging?.let { message ->
+            Text(
+                text = message,
+                color = MaterialTheme.colorScheme.error,
+                fontSize = 13.sp
+            )
+        }
+
+
+        OutlinedTextField(
+
+            value = description,
+
+            onValueChange = {
+                description = it
+            },
+
+            modifier =
+                Modifier.fillMaxWidth(),
+
+            label = {
+                Text("توضیحات")
+            },
+
+            minLines = 2,
+
+            maxLines = 3
+        )
+
+
+        Spacer(
+            modifier =
+                Modifier.height(2.dp)
+        )
+
+
+        Button(
+
+            onClick = {
+
+                if (selectedProduct == null) {
+                    errorMessaging="محصولی انتخاب نشده است"
+                    return@Button
+                }
+
+                val quantityValue =
+                    quantity.toIntOrNull()
+
+
+                if (
+                    quantityValue == null ||
+                    quantityValue <= 0
+                ) {
+                    errorMessaging="مقدار نمی تواند خالی باشد"
+                    return@Button
+                }
+
+                if (
+                    quantityValue >
+                    selectedProduct.stock
+                ) {
+                    errorMessaging = "موجودی کافی نیست. موجودی فعلی: ${selectedProduct.stock}"
+
+                    return@Button
+                }
+
+                val today =
+                    SimpleDateFormat(
+                        "yyyy/MM/dd",
+                        Locale.getDefault()
+                    ).format(Date())
+
+
+                val saleData =
+                    SaleData(
+
+                        id = 0,
+
+                        productId =
+                            selectedProduct.id,
+
+                        date = today,
+
+                        quantity =
+                            quantityValue,
+
+                        purchasePriceAsSale =
+                            selectedProduct.purchasePrice,
+
+                        salePriceAsSale =
+                            selectedProduct.salesPrice,
+
+                        description =
+                            description.ifBlank {
+                                null
+                            }
+                    )
+
+
+                saleViewModel
+                    .upsertSaleViewModel(
+                        saleData
+                    )
+
+
+                val updatedProduct =
+                    selectedProduct.copy(
+
+                        stock =
+                            selectedProduct.stock -
+                                    quantityValue
+                    )
+
+
+                productViewModel
+                    .upsertProduct(
+                        updatedProduct
+                    )
+
+
+                quantity = ""
+
+                description = ""
+
+                selectedProductId = null
+                errorMessaging = null
+            },
+
+            modifier =
+                Modifier.fillMaxWidth(),
+
+            enabled =
+                selectedProduct != null
+        ) {
+
+            Text(
+                text = "ثبت فروش"
+            )
+        }
+    }
+}
+
+
+/* =====================================================
+   SALE LIST
+===================================================== */
+
+@Composable
+fun SaleList(
+    saleList: List<SaleData>,
+    productList: List<ProductData>,
+    saleViewModel: SaleProductViewModel,
+    productViewModel: ProductViewModel
+) {
+
+    val groupedSales =
+        saleList.groupBy {
+            it.productId to it.date
+        }
+
+    Column(
+        modifier =
+            Modifier.fillMaxWidth()
+    ) {
+
+        Text(
+            text =
+                "فروش‌های ثبت‌شده",
+
+            style =
+                MaterialTheme.typography.titleLarge
+        )
+
+        Spacer(
+            modifier =
+                Modifier.height(8.dp)
+        )
+
+
+        if (groupedSales.isEmpty()) {
+
+            Text(
+                text =
+                    "هنوز فروشی ثبت نشده است.",
+
+                modifier =
+                    Modifier.padding(16.dp)
+            )
+
+        } else {
+
+            Column(
+                verticalArrangement =
+                    Arrangement.spacedBy(8.dp)
+            ) {
+
+                groupedSales.entries.forEach { entry ->
+
+                    val salesOfThisDay =
+                        entry.value
+
+                    val product =
+                        productList.find {
+                            it.id ==
+                                    entry.key.first
+                        }
+
+                    DailySaleItem(
+                        sales =
+                            salesOfThisDay,
+
+                        product =
+                            product,
+
+                        saleViewModel =
+                            saleViewModel,
+
+                        productViewModel =
+                            productViewModel
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+/* =====================================================
+   DAILY SALE ITEM
+===================================================== */
+
+@Composable
+fun DailySaleItem(
+    sales: List<SaleData>,
+    product: ProductData?,
+    saleViewModel: SaleProductViewModel,
+    productViewModel: ProductViewModel
+) {
+
+    var showEditDialog by remember {
+        mutableStateOf(false)
+    }
+
+
+    val totalQuantity =
+        sales.sumOf {
+            it.quantity
+        }
+
+
+    val totalSaleAmount =
+        sales.sumOf {
+            it.salePriceAsSale *
+                    it.quantity
+        }
+
+
+    val totalProfit =
+        sales.sumOf {
+
+            (
+                    it.salePriceAsSale -
+                            it.purchasePriceAsSale
+                    ) * it.quantity
+        }
+
+
+    val date =
+        sales.firstOrNull()?.date ?: ""
+
+
+    Card(
+        modifier =
+            Modifier.fillMaxWidth()
+    ) {
+
+        Column(
+            modifier =
+                Modifier.padding(10.dp),
+
+            verticalArrangement =
+                Arrangement.spacedBy(4.dp)
+        ) {
+
+            // نام محصول + تاریخ
+
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween,
+
+                verticalAlignment =
+                    Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text =
+                        product?.productName
+                            ?: "محصول حذف شده",
+
+                    style =
+                        MaterialTheme
+                            .typography
+                            .titleMedium,
+
+                    fontWeight =
+                        FontWeight.Bold
+                )
+
+                Text(
+                    text =
+                        date,
+
+                    style =
+                        MaterialTheme
+                            .typography
+                            .bodySmall
+                )
+            }
+
+
+            // تعداد + تراکنش
+
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+            ) {
+
+                Text(
+                    text =
+                        "تعداد فروش: ${totalQuantity.toPersianNumber()}"
+                )
+
+                Text(
+                    text =
+                        "تراکنش: ${sales.size.toPersianNumber()}"
+                )
+            }
+
+
+            // مبلغ فروش + سود
+
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+            ) {
+
+                Text(
+                    text =
+                        "فروش: ${totalSaleAmount.toPersianNumber()}"
+                )
+
+                Text(
+                    text =
+                        "سود: ${totalProfit.toPersianNumber()}"
+                )
+            }
+
+
+            // دکمه‌ها
+
+            Row(
+                modifier =
+                    Modifier.fillMaxWidth(),
+
+                horizontalArrangement =
+                    Arrangement.End
+            ) {
+
+                IconButton(
+                    onClick = {
+                        showEditDialog = true
+                    }
+                ) {
+
+                    Icon(
+                        imageVector =
+                            Icons.Default.Edit,
+
+                        contentDescription =
+                            "ویرایش"
+                    )
+                }
+
+
+                IconButton(
+                    onClick = {
+
+                        /*
+                         * در این مرحله
+                         * آخرین تراکنش گروه حذف می‌شود.
+                         */
+
+                        sales
+                            .lastOrNull()
+                            ?.let { sale ->
+
+                                saleViewModel
+                                    .deleteSaleViewModel(
+                                        sale
+                                    )
+
+
+                                productViewModel
+                                    .increaseStock(
+                                        productId =
+                                            sale.productId,
+
+                                        quantity =
+                                            sale.quantity
+                                    )
+                            }
+                    }
+                ) {
+
+                    Icon(
+                        imageVector =
+                            Icons.Default.Delete,
+
+                        contentDescription =
+                            "حذف"
+                    )
+                }
+            }
+        }
+    }
+
+
+    if (showEditDialog) {
+
+        EditSaleDialog(
+            sales =
+                sales,
+
+            saleViewModel =
+                saleViewModel,
+
+            productViewModel =
+                productViewModel,
+
+            onDismiss = {
+                showEditDialog = false
+            }
+        )
+    }
+}
+
+
+/* =====================================================
+   EDIT SALE DIALOG
+===================================================== */
+
+@Composable
+fun EditSaleDialog(
+    sales: List<SaleData>,
+    saleViewModel: SaleProductViewModel,
+    productViewModel: ProductViewModel,
+    onDismiss: () -> Unit
+) {
+
+    var selectedSale by remember {
+        mutableStateOf<SaleData?>(null)
+    }
+
+
+    if (selectedSale == null) {
+
+        AlertDialog(
+
+            onDismissRequest =
+                onDismiss,
+
+            title = {
+                Text(
+                    text =
+                        "انتخاب فروش برای ویرایش"
+                )
+            },
+
+            text = {
+
+                Column(
+                    verticalArrangement =
+                        Arrangement.spacedBy(6.dp)
+                ) {
+
+                    sales.forEach { sale ->
+
+                        Card(
+                            modifier =
+                                Modifier.fillMaxWidth()
+                        ) {
+
+                            Row(
+
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(10.dp),
+
+                                horizontalArrangement =
+                                    Arrangement.SpaceBetween,
+
+                                verticalAlignment =
+                                    Alignment.CenterVertically
+                            ) {
+
+                                Column {
+
+                                    Text(
+                                        text =
+                                            "تعداد: " +
+                                                    sale.quantity
+                                    )
+
+                                    Text(
+                                        text =
+                                            "قیمت فروش: " +
+                                                    sale.salePriceAsSale
+                                    )
+
+                                    Text(
+                                        text =
+                                            "سود: " +
+                                                    (
+                                                            sale.salePriceAsSale -
+                                                                    sale.purchasePriceAsSale
+                                                            ) *
+                                                    sale.quantity
+                                    )
+                                }
+
+
+                                TextButton(
+                                    onClick = {
+                                        selectedSale =
+                                            sale
+                                    }
+                                ) {
+
+                                    Text(
+                                        text =
+                                            "ویرایش"
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+
+            confirmButton = {},
+
+            dismissButton = {
+                TextButton(
+                    onClick =
+                        onDismiss
+                ) {
+                    Text("بستن")
+                }
+            }
+        )
+
+    } else {
+
+        EditSingleSaleDialog(
+            sale =
+                selectedSale!!,
+
+            saleViewModel =
+                saleViewModel,
+
+            productViewModel =
+                productViewModel,
+
+            onDismiss =
+                onDismiss
+        )
+    }
+}
+
+
+/* =====================================================
+   EDIT SINGLE SALE
+===================================================== */
+
+@Composable
+fun EditSingleSaleDialog(
+    sale: SaleData,
+    saleViewModel: SaleProductViewModel,
+    productViewModel: ProductViewModel,
+    onDismiss: () -> Unit
+) {
+
+    var quantity by remember {
+        mutableStateOf(
+            sale.quantity.toString()
+        )
+    }
+
+
+    var description by remember {
+        mutableStateOf(
+            sale.description ?: ""
+        )
+    }
+
+
+    AlertDialog(
+
+        onDismissRequest =
+            onDismiss,
+
+        title = {
+            Text(
+                text =
+                    "ویرایش فروش"
+            )
+        },
+
+        text = {
+
+            Column(
+                verticalArrangement =
+                    Arrangement.spacedBy(8.dp)
+            ) {
+
+                Text(
+                    text =
+                        "قیمت خرید هنگام فروش: " +
+                                sale.purchasePriceAsSale
+                )
+
+
+                Text(
+                    text =
+                        "قیمت فروش هنگام فروش: " +
+                                sale.salePriceAsSale
+                )
+
+
+                OutlinedTextField(
+
+                    value =
+                        quantity,
+
+                    onValueChange = {
+                        quantity = it
+                    },
+
+                    label = {
+                        Text("تعداد")
+                    },
+
+                    singleLine = true,
+
+                    modifier =
+                        Modifier.fillMaxWidth()
+                )
+
+
+                OutlinedTextField(
+
+                    value =
+                        description,
+
+                    onValueChange = {
+                        description = it
+                    },
+
+                    label = {
+                        Text("توضیحات")
+                    },
+
+                    minLines = 3,
+
+                    modifier =
+                        Modifier.fillMaxWidth()
+                )
+            }
+        },
+
+
+        confirmButton = {
+
+            TextButton(
+
+                onClick = {
+
+                    val newQuantity =
+                        quantity.toIntOrNull()
+
+
+                    if (
+                        newQuantity == null ||
+                        newQuantity <= 0
+                    ) {
+                        return@TextButton
+                    }
+
+
+                    productViewModel
+                        .changeStockAfterSaleEdit(
+                            productId =
+                                sale.productId,
+
+                            oldQuantity =
+                                sale.quantity,
+
+                            newQuantity =
+                                newQuantity
+                        )
+
+
+                    saleViewModel
+                        .updateSaleViewModel(
+
+                            oldSale =
+                                sale,
+
+                            newQuantity =
+                                newQuantity,
+
+                            newDescription =
+                                description.ifBlank {
+                                    null
+                                }
+                        )
+
+
+                    onDismiss()
+                }
+            ) {
+
+                Text(
+                    text =
+                        "ذخیره"
+                )
+            }
+        },
+
+
+        dismissButton = {
+
+            TextButton(
+                onClick =
+                    onDismiss
+            ) {
+
+                Text(
+                    text =
+                        "انصراف"
+                )
+            }
+        }
+    )
+}
+
+
+/* =====================================================
+   PRODUCT DROP DOWN
+===================================================== */
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProductDropDown(
+    productList: List<ProductData>,
+    selectedProductId: Int?,
+    onProductSelected: (Int) -> Unit
+) {
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
+
+    val selectedProduct =
+        productList.find { item ->
+
+            item.id ==
+                    selectedProductId
+        }
+
+
+    Row(
+        modifier =
+            Modifier.fillMaxWidth(),
+
+        verticalAlignment =
+            Alignment.CenterVertically
+    ) {
+
+        ExposedDropdownMenuBox(
+
+            expanded =
+                expanded,
+
+            onExpandedChange = {
+
+                expanded =
+                    !expanded
+            },
+
+            modifier =
+                Modifier.weight(1f)
+        ) {
+
+            OutlinedTextField(
+
+                value =
+                    selectedProduct
+                        ?.productName
+                        ?: "",
+
+                onValueChange = {},
+
+                readOnly = true,
+
+                label = {
+
+                    Text(
+                        text =
+                            "انتخاب محصول"
+                    )
+                },
+
+                trailingIcon = {
+
+                    ExposedDropdownMenuDefaults
+                        .TrailingIcon(
+                            expanded =
+                                expanded
+                        )
+                },
+
+                modifier =
+                    Modifier
+                        .menuAnchor()
+                        .fillMaxWidth()
+            )
+
+
+            ExposedDropdownMenu(
+
+                expanded =
+                    expanded,
+
+                onDismissRequest = {
+
+                    expanded =
+                        false
+                }
+
+            ) {
+
+                productList.forEach { product ->
+
+                    DropdownMenuItem(
+
+                        text = {
+
+                            Text(
+                                text =
+                                    product.productName
+                            )
+                        },
+
+                        onClick = {
+
+                            onProductSelected(
+                                product.id
+                            )
+
+                            expanded =
+                                false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+@Composable
+fun SaleListPreview() {
+    // فعلاً خالی
+}
